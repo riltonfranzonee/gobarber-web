@@ -1,10 +1,12 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useContext } from 'react';
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 
 import * as Yup from 'yup';
 import getValidationErrors from '../../utils/getValidationErrors';
+
+import { AuthContext } from '../../context/AuthContext';
 
 import logo from '../../assets/logo.svg';
 
@@ -13,10 +15,17 @@ import { Container, Content, Background } from './styles';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
+interface SignInDto {
+  email: string;
+  password: string;
+}
+
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
-  const handleSubmit = useCallback(async (data: any): Promise<void> => {
+  const { signIn, user } = useContext(AuthContext);
+
+  const handleSubmit = useCallback(async (data: SignInDto): Promise<void> => {
     try {
       formRef.current?.setErrors({});
 
@@ -26,12 +35,17 @@ const SignIn: React.FC = () => {
       });
 
       await schema.validate(data, { abortEarly: false });
+
+      signIn({
+        email: data.email,
+        password: data.password,
+      });
     } catch (error) {
       const errors = getValidationErrors(error);
 
       formRef.current?.setErrors(errors);
     }
-  }, []);
+  }, [signIn]);
 
   return (
     <Container>
