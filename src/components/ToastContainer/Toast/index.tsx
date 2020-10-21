@@ -8,10 +8,11 @@ import { Toast } from './styles';
 import { ToastMessage, useToast } from '../../../hooks/toast';
 
 interface ToastItemProps {
-  message: ToastMessage
+  message: ToastMessage;
+  style: object
 }
 
-const ToastItem: React.FC<ToastItemProps> = ({ message }) => {
+const ToastItem: React.FC<ToastItemProps> = ({ message, style }) => {
   const { removeToast } = useToast();
 
   const handleRemoveToast = useCallback(() => {
@@ -33,7 +34,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ message }) => {
   };
 
   return (
-    <Toast hasDescription={!!message.description} key={message.id} type={message.type}>
+    <Toast hasDescription={!!message.description} type={message.type} style={style}>
       {icons[message.type || 'info']}
 
       <div>
