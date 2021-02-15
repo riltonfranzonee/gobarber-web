@@ -35,6 +35,7 @@
     "no-use-before-define": "off",
     "no-unused-expressions": "off",
     "@typescript-eslint/ban-types": "off",
+    "import/no-duplicates": "off",
     "camelcase": "off",
     "import/extensions": [
       "error",
